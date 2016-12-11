@@ -1,6 +1,8 @@
 flask:
    build: ./src/
    command: python /src/app.py
+   ports:
+          - "5001:5000"
    volumes:
          - ./src:/src
          - /etc/localtime:/etc/localtime:ro

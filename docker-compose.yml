@@ -4,3 +4,5 @@ flask:
    volumes:
          - ./src:/src
          - /etc/localtime:/etc/localtime:ro
+   environment:
+         - GATEWAY=http://localhost:5000
