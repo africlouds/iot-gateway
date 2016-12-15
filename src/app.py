@@ -57,6 +57,11 @@ def manage_readings():
 	elif request.method == 'GET':
 		return jsonify(readings = [i.serialize for i in Reading.query.all()])
 		
+@app.route('/command/<string:command>')
+@auth.login_required
+def post_command(command):
+        return jsonify({'command':command, 'output':'output'})
+
 		
 		
 		

@@ -1,4 +1,5 @@
 flask:
+   restart: always
    build: ./src/
    command: python /src/app.py
    volumes:
