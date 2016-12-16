@@ -13,7 +13,7 @@ db = SQLAlchemy(app)
 users = {
     "admin": "admin"
 }
-
+SENSORS = ["temp_1"]
 
 @auth.get_password
 def get_pw(username):
@@ -55,7 +55,20 @@ def manage_readings():
          	db.session.commit()
 		return reading.sensor, 200
 	elif request.method == 'GET':
-		return jsonify(readings = [i.serialize for i in Reading.query.all()])
+		readings = []
+		for sensor in SENSORS:
+			query = "SELECT * FROM reading WHERE sensor='%s' ORDER BY timestamp DESC LIMIT 1" % sensor
+			reading = db.engine.execute(query).first()
+			print reading
+			
+			readings.append(
+				{"sensor":reading[1],
+				 "reading_type":reading[2], 
+				 "reading_value":reading[3],
+				"timestamp": reading[4]
+				}
+			)
+		return jsonify(readings = readings)
 		
 @app.route('/command/<string:command>')
 @auth.login_required
